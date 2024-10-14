@@ -31,7 +31,7 @@ namespace Bdb.Curso.EntityFrameworkCore
             return base.ReaderExecuted(command, eventData, result);
         }
 
-        private void LogLongQuery(DbCommand command, CommandExecutedEventData eventData)
+        private  static void LogLongQuery(DbCommand command, CommandExecutedEventData eventData)
         {
             Log.Information($"Long query: {command.CommandText}. Duration: {eventData.Duration.TotalMilliseconds} ms");
 

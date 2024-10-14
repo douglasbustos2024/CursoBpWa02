@@ -22,37 +22,48 @@ namespace Bdb.Curso.HttpApi.Host.Services
         private readonly TwoFactorSettings _twoFactorSettings;
         private readonly IEmailSenderService _emailSender; // Servicio para enviar correos electrónicos
 
-        private RSA _privateKey;
-        private RSA _publicKey;
+        private readonly RSA _privateKey;
+        private readonly RSA _publicKey;
         private readonly IGenericRepository<RefreshToken> _refreshTokenRepository;
         private readonly IGenericRepository<User> _userRepository;
 
         public JwtTokenService(
-            IOptions<JwtSettingsValues> jwtSettings,
+            JwtSettingsValues jwtSettings,
             IOptions<TwoFactorSettings> twoFactorSettings,
             IEmailSenderService emailSender,
             IGenericRepository<RefreshToken> refreshTokenRepository,
             IGenericRepository<User> userRepository)
         {
             _refreshTokenRepository = refreshTokenRepository;
-            _jwtSettings = jwtSettings.Value;
+            _jwtSettings = jwtSettings;
             _twoFactorSettings = twoFactorSettings.Value;
             _emailSender = emailSender;
-            LoadKeys();
-            _userRepository = userRepository;
-        }
 
-        private void LoadKeys()
-        {
-            var privateKeyPem = File.ReadAllText(_jwtSettings.PrivateKeyPath);
-            var publicKeyPem = File.ReadAllText(_jwtSettings.PublicKeyPath);
+
+            var privateKeyPem = _jwtSettings.PrivateKeyPath;
+            var publicKeyPem = _jwtSettings.PublicKeyPath;
 
             _privateKey = RSA.Create();
+
+            if (string.IsNullOrWhiteSpace(privateKeyPem))
+            {
+                throw new InvalidOperationException("La clave privada PEM no puede ser nula o vacía.");
+            }
+
             _privateKey.ImportFromPem(privateKeyPem.ToCharArray());
 
             _publicKey = RSA.Create();
+
+            if (string.IsNullOrWhiteSpace(publicKeyPem))
+            {
+                throw new InvalidOperationException("La clave privada PEM no puede ser nula o vacía.");
+            }
             _publicKey.ImportFromPem(publicKeyPem.ToCharArray());
+
+            _userRepository = userRepository;
         }
+
+     
 
                             
 
@@ -89,7 +100,7 @@ namespace Bdb.Curso.HttpApi.Host.Services
                         await _userRepository.UpdateAsync(userDb);
 
                     }
-                    catch (Exception eex)
+                    catch 
                     {
 
                         throw;
@@ -140,13 +151,19 @@ namespace Bdb.Curso.HttpApi.Host.Services
             var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+            new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName ?? string.Empty),
             new Claim(ClaimTypes.Role, "pending-2fa") // Indica que 2FA está pendiente
         };
+
+
+
+            // Agregar los roles como claims y autorizaciones personalizadas
+            var rolesList = (user.Roles ?? string.Empty)
+                         .Split(',')
+                         .Select(r => r.Trim())
+                         .ToList();
                                           
        
-            // Agregar los roles como claims y autorizaciones personalizadas
-            var rolesList = user.Roles.Split(',').Select(r => r.Trim()).ToList();
             foreach (var role in rolesList)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
@@ -224,12 +241,20 @@ namespace Bdb.Curso.HttpApi.Host.Services
             var claims = new List<Claim>
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+            new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName??string.Empty),
             new Claim("client_type", clientType)
         };
 
+            
+
+
             // Agregar los roles como claims y autorizaciones personalizadas
-            var rolesList = user.Roles.Split(',').Select(r => r.Trim()).ToList();
+            var rolesList = (user.Roles ?? string.Empty)
+                         .Split(',')
+                         .Select(r => r.Trim())
+                         .ToList();
+
+                                     
             foreach (var role in rolesList)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
@@ -289,12 +314,12 @@ namespace Bdb.Curso.HttpApi.Host.Services
         // Métodos para obtener el emisor, audiencia y clave pública
         public string GetIssuer()
         {
-            return _jwtSettings.Issuer; // Obtener del archivo de configuración
+            return _jwtSettings.Issuer??string.Empty; // Obtener del archivo de configuración
         }
 
         public string GetAudience()
         {
-            return _jwtSettings.Audience; // Obtener del archivo de configuración
+            return _jwtSettings.Audience ?? string.Empty; // Obtener del archivo de configuración
         }
 
         public RsaSecurityKey GetPublicKey()

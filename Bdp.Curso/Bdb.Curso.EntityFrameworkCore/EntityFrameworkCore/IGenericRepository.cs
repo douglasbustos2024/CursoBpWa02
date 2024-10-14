@@ -23,10 +23,10 @@
             Expression<Func<IGrouping<TKey, T>, TResult>> resultSelector);
 
         // Soporte para conteo de elementos
-        Task<int> CountAsync(Expression<Func<T, bool>> predicate = null);
+        Task<int> CountAsync(Expression<Func<T, bool>>? predicate = null);
 
         // Verificar si existen registros con Any
-        Task<bool> AnyAsync(Expression<Func<T, bool>> predicate = null);
+        Task<bool> AnyAsync(Expression<Func<T, bool>>? predicate = null);
 
         // Operaciones de agregación
         Task<decimal> SumAsync(Expression<Func<T, decimal>> selector);

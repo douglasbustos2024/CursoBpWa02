@@ -37,9 +37,9 @@ namespace Bdb.Curso.HttpApi.Host.Services
         /// <typeparam name="T">Tipo de datos almacenados en caché.</typeparam>
         /// <param name="key">Clave del caché.</param>
         /// <returns>Valor almacenado en caché o default(T) si no existe.</returns>
-        public T Get<T>(string key)
+        public T Get<T>(string key) where T : class, new()
         {
-            return _cache.TryGetValue(key, out T value) ? value : default;
+            return _cache.TryGetValue(key, out T value) ? value : new T();
         }
 
 

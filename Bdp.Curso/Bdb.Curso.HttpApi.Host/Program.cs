@@ -156,7 +156,8 @@ namespace Bdb.Curso.HttpApi.Host
                     }
                     catch (Exception ee)
                     {
-                        throw;
+                        Log.Fatal(ee, "La aplicación falló al iniciar.");
+                        throw  ;
                     }
 
                 }

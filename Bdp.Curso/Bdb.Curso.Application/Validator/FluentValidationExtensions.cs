@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 namespace Bdb.Curso.Application.Validator
 {
     public static class FluentValidationExtensions
-    {                           
-        [Obsolete]
+    {
+        [Obsolete("El método AddCustomFluentValidation es obsoleto. Usa AddFluentValidation directamente o revisa la nueva configuración recomendada.")]
         public static IMvcBuilder AddCustomFluentValidation(this IMvcBuilder builder)
          {
        

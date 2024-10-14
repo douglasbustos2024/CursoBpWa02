@@ -7,7 +7,9 @@ namespace Bdb.Curso.EntityFrameworkCore.Repositories
         private readonly ApplicationDbContext _context;
         private readonly Dictionary<Type, object> _repositories = new();
 
-        private IDbContextTransaction _transaction;
+        private bool _disposed = false;  // Controla si ya fue liberado
+
+        private IDbContextTransaction? _transaction;
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -56,9 +58,25 @@ namespace Bdb.Curso.EntityFrameworkCore.Repositories
             return await _context.SaveChangesAsync();
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    // Liberar recursos administrados
+                    _context.Dispose();
+                    _transaction?.Dispose();
+                }
+                // Marcar que ya se liberó
+                _disposed = true;
+            }
+        }
+
         public void Dispose()
         {
-            _context.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

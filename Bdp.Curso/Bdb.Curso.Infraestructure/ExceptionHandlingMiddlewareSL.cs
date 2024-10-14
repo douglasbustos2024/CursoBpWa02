@@ -12,12 +12,12 @@ namespace Bdb.Curso.Infraestructure
     public class ExceptionHandlingMiddlewareSL
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger<ExceptionHandlingMiddleware> _logger;
+     
 
-        public ExceptionHandlingMiddlewareSL(RequestDelegate next, ILogger<ExceptionHandlingMiddleware> logger)
+        public ExceptionHandlingMiddlewareSL(RequestDelegate next )
         {
             _next = next;
-            _logger = logger;
+           
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -30,7 +30,7 @@ namespace Bdb.Curso.Infraestructure
             {
                 // Log the exception using both Serilog and ILogger
                 Log.Error(ex, "Unhandled exception occurred");
-                _logger.LogError(ex, "Unhandled exception occurred");
+            
 
                 // Set the response properties
                 context.Response.ContentType = "application/json";

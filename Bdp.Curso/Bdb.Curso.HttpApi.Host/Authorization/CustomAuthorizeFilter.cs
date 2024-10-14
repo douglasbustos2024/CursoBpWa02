@@ -64,7 +64,7 @@ namespace Bdb.Curso.HttpApi.Host.Authorization
     }
 
 
-
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]   
     public class CustomAuthorizeAttribute : TypeFilterAttribute
     {
         public CustomAuthorizeAttribute(string requiredPermission) : base(typeof(CustomAuthorizeFilter))

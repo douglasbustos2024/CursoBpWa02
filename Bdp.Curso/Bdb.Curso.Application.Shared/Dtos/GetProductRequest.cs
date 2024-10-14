@@ -2,7 +2,7 @@
 {
     public class GetProductRequest
     {
-        public string? searchTerm { get; set; }
+        public string searchTerm { get; set; } = string.Empty;
         public int pageNumber { get; set; }
 
     }

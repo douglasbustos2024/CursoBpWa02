@@ -11,13 +11,13 @@ namespace Bdb.Curso.EntityFrameworkCore
         }
 
         #region Listado de colecciones
-        public DbSet<User> Users { get; set; }          
-        public DbSet<Product> Products { get; set; }
-        public DbSet<ProductKardex> ProductKardexs { get; set; } 
-        public DbSet<ProductBalance> ProductBalances { get; set; }
-        public DbSet<Supplier> Suppliers { get; set; }            
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Product> Products { get; set; }   = null!;
+        public DbSet<ProductKardex> ProductKardexs { get; set; } = null!;
+        public DbSet<ProductBalance> ProductBalances { get; set; } = null!;
+        public DbSet<Supplier> Suppliers { get; set; } = null!;
+        public DbSet<Category> Categories { get; set; } = null!;
+        public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
 
         #endregion
 

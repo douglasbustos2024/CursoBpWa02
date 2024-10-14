@@ -32,8 +32,7 @@ namespace Bdb.Curso.HttpApi.Host.Controllers
 
         // GET: api/lista-productos
         [HttpGet("lista-productos")]
-
-       // [CustomAuthorize(AppPermissions.Pages_Query_Products)]
+                                                                     
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts([FromQuery] 
         GetProductRequest input)
         {
