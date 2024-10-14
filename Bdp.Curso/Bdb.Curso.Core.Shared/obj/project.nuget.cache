@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "nEeDpx5MkVvjKBBhhB1NumpwWFYU1lpv9AXZV3DYT3UsqazZxAT9BDtj56PYvYR2UDkNapZQ/qViMcGimRPnxA==",
+  "success": true,
+  "projectFilePath": "C:\\PrysDbustos\\cursos\\bp02\\Dia10\\Git10\\Bdp.Curso\\Bdb.Curso.Core.Shared\\Bdb.Curso.Core.Shared.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\douglas.bustos\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.33\\microsoft.windowsdesktop.app.ref.6.0.33.nupkg.sha512",
+    "C:\\Users\\douglas.bustos\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.33\\microsoft.netcore.app.ref.6.0.33.nupkg.sha512",
+    "C:\\Users\\douglas.bustos\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.33\\microsoft.aspnetcore.app.ref.6.0.33.nupkg.sha512"
+  ],
+  "logs": []
+}

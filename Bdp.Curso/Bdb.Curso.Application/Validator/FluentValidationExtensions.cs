@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 namespace Bdb.Curso.Application.Validator
 {
     public static class FluentValidationExtensions
-    {
+    {                           
+        [Obsolete]
         public static IMvcBuilder AddCustomFluentValidation(this IMvcBuilder builder)
          {
        
